@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <dong.lan.library.LabelTextView
+        app:bg_color="@color/label_item_color"
+        android:textColor="@color/label_item_color"
+        android:textSize="16sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        app:strokeWidth="1dp"
+        app:shadowRadius="4dp"
+        android:shadowDx="6"
+        android:shadowDy="6"
+        app:radius="30dp"
+        android:shadowColor="@color/label_item_color"
+        android:id="@+id/ltv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

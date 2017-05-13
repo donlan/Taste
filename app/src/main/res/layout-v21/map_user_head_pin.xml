@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <dong.lan.base.ui.customView.PinCircleImageView
+        android:id="@+id/pin_user_head"
+        android:src="@drawable/head"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+</FrameLayout>

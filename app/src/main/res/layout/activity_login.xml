@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/login_label_text"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="24dp"
+        android:drawableLeft="@drawable/user"
+        android:drawablePadding="12dp"
+        android:hint="@string/login_username" />
+
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="12dp"
+        android:hint="@string/login_password" />
+
+    <dong.lan.library.LabelTextView
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/enter"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:bg_color="#ff7e45"
+        app:radius="4dp" />
+
+    <dong.lan.library.LabelTextView
+        android:id="@+id/login_to_register"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/login_need_register"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:bg_color="#59b795"
+        app:radius="4dp" />
+
+</LinearLayout>
