@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">图趣</string>
-    <string name="enter">开启图趣</string>
+    <string name="app_name">食趣</string>
+    <string name="enter">开启食趣</string>
     <string name="login_password">密码</string>
     <string name="login_username">用户名</string>
     <string name="login_need_register">注册用户</string>

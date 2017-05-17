@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dong.lan.base.ui.customView.RelativeCarView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="12dp"
+    app:rcv_marginY="2dp"
+    app:rcv_elevation="1dp"
+    app:rcv_elevationColor="@color/grey"
+    android:orientation="vertical">
+
+    <dong.lan.base.ui.customView.CircleImageView
+        android:id="@+id/item_conversation_avatar"
+        android:src="@drawable/head"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:layout_toRightOf="@id/item_conversation_avatar"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/item_conversation_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/item_conversation_name"
+        android:layout_toRightOf="@id/item_conversation_avatar"
+        android:textSize="18sp"
+        android:textColor="@color/grey"
+        android:id="@+id/item_conversation_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</dong.lan.base.ui.customView.RelativeCarView>

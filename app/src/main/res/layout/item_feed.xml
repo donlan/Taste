@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dong.lan.base.ui.customView.RelativeCarView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    android:orientation="vertical"
+    app:rcv_backgroundColor="#ffffff"
+    app:rcv_elevation="4dp"
+    android:padding="16dp"
+    app:rcv_marginY="10dp"
+    app:rcv_elevationColor="@color/grey"
+    app:rcv_radius="6dp">
+
+    <dong.lan.library.LabelTextView
+        android:id="@+id/item_feed_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        app:bg_color="#ffffffff" />
+
+    <TextView
+        android:layout_below="@id/item_feed_label"
+        android:id="@+id/item_feed_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_below="@id/item_feed_content"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:id="@+id/item_feed_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+</dong.lan.base.ui.customView.RelativeCarView>

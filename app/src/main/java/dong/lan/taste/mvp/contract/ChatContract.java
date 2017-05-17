@@ -30,6 +30,8 @@ public interface ChatContract {
         void newGuide(double latitude, double longitude, String address);
 
         void handlerMessage(AVIMMessage message, AVIMConversation avimConversation, AVIMClient client);
+
+        void startById(String convId);
     }
 
     public interface Model {

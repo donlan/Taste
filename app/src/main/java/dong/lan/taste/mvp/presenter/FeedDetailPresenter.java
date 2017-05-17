@@ -94,4 +94,9 @@ public class FeedDetailPresenter implements FeedDetailContract.Presenter {
             feed.addLike(AVOUser.getCurrentUser());
         }
     }
+
+    @Override
+    public void share() {
+
+    }
 }

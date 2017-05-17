@@ -40,6 +40,27 @@ public class ChatPresenter implements ChatContract.Presenter {
     }
 
     @Override
+    public void startById(String id){
+        if (TextUtils.isEmpty(id)) {
+            view.activity().finish();
+        } else {
+            conversation = App.myApp().getAvimClient().getConversation(id);
+            if (conversation == null) {
+                conversation.queryMessages(100, new AVIMMessagesQueryCallback() {
+                    @Override
+                    public void done(List<AVIMMessage> list, AVIMException e) {
+                        if (e == null || list != null) {
+                            view.showMessage(list);
+                        }
+                    }
+                });
+            } else {
+                view.dialog("无法获取会话");
+                view.activity().finish();
+            }
+        }
+    }
+    @Override
     public void start(String userSeq) {
         if (TextUtils.isEmpty(userSeq)) {
             view.activity().finish();

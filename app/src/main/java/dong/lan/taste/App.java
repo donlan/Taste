@@ -1,6 +1,8 @@
 package dong.lan.taste;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
@@ -8,16 +10,19 @@ import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.blankj.ALog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import dong.lan.avoscloud.ModelConfig;
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.base.utils.SPHelper;
 import dong.lan.map.service.LocationService;
+import dong.lan.taste.event.ConvEvent;
 import dong.lan.taste.im.IMMessageHandler;
 
 /**
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     @Override
     public void onCreate() {
@@ -30,6 +35,11 @@ public class App extends Application {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     private static App app;
     private AVIMClient avimClient;
@@ -58,6 +68,7 @@ public class App extends Application {
                         if (e == null) {
                             App.this.avimClient = avimClient;
                         } else {
+                            EventBus.getDefault().post(new ConvEvent());
                         }
                     }
                 });

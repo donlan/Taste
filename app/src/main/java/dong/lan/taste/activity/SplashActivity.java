@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import dong.lan.avoscloud.bean.AVOUser;
-import dong.lan.taste.MainActivity;
 import dong.lan.taste.R;
 
 /**

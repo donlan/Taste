@@ -13,7 +13,7 @@ import com.avos.avoscloud.LogInCallback;
 import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOUser;
-import dong.lan.taste.MainActivity;
+import dong.lan.taste.activity.MainActivity;
 import dong.lan.taste.feature.presenter.ILoginPresenter;
 import dong.lan.taste.feature.view.ILoginView;
 

@@ -15,7 +15,7 @@
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         app:strokeWidth="1dp"
-        app:shadowRadius="4dp"
+        app:shadowRadius="2dp"
         android:shadowDx="6"
         android:shadowDy="6"
         app:radius="30dp"

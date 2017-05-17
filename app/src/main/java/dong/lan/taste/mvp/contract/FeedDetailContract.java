@@ -31,6 +31,8 @@ public interface FeedDetailContract {
         void fetchFeed(String feedSeq);
 
         void saveLike();
+
+        void share();
     }
 
     public interface Model {

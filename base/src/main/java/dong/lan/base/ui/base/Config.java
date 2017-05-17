@@ -7,6 +7,8 @@ package dong.lan.base.ui.base;
 public final class Config {
 
     public static final String INTENT_USER = "userSeq";
+    public static final String INTENT_CONVERSATION = "conversation";
+    public static final int MARKER_TYPE_SHOP = 101;
 
     private Config() {
         //no instance

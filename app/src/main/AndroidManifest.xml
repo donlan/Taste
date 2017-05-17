@@ -16,9 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegisterActivity"/>
+        <activity android:name=".activity.CreateFeedActivity" />
+        <activity android:name=".activity.PickLabelActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.FriendsActivity" />
+        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.UserCenterActivity" />
+        <activity android:name=".activity.FeedDetailActivity" />
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.ShopDetailActivity"/>
+        <activity android:name=".activity.FavoriteActivity"/>
     </application>
 
 </manifest>

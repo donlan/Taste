@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dong.lan.base.ui.customView.RelativeCarView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:rcv_backgroundColor="@color/white"
+    app:rcv_elevation="@dimen/dp_10"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp"
+    app:rcv_elevationColor="@color/grey"
+    app:rcv_marginY="10dp"
+
+    >
+
+    <ImageView
+        android:id="@+id/item_shop_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/item_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_shop_image"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/ic_home"
+        android:id="@+id/item_shop_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_shop_name"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/item_shop_image"
+        android:textSize="16sp" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/ic_phone"
+        android:id="@+id/item_shop_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_shop_address"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/item_shop_image"
+        android:textSize="16sp" />
+
+
+</dong.lan.base.ui.customView.RelativeCarView>
