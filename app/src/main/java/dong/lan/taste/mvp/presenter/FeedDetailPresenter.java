@@ -1,6 +1,7 @@
 
 package dong.lan.taste.mvp.presenter;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import dong.lan.avoscloud.bean.AVOFeedImage;
 import dong.lan.avoscloud.bean.AVOLabel;
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.taste.R;
+import dong.lan.taste.activity.ShareActivity;
 import dong.lan.taste.mvp.contract.FeedDetailContract;
 
 /**
@@ -97,6 +99,11 @@ public class FeedDetailPresenter implements FeedDetailContract.Presenter {
 
     @Override
     public void share() {
-
+        Intent intent = new Intent(view.activity(), ShareActivity.class);
+        intent.putExtra("type","Feed");
+        intent.putExtra("uid",feed.getObjectId());
+        intent.putExtra("desc",feed.getContent());
+        intent.putExtra("json",feed.toString());
+        view.activity().startActivity(intent);
     }
 }

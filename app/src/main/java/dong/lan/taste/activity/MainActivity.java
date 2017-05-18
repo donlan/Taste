@@ -133,11 +133,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initView() {
 
-        tab = new Fragment[4];
+        tab = new Fragment[5];
         tab[0] = NearShopFragment.newInstance("附近店铺", 0, 0);
         tab[1] = NearFeedFragment.newInstance("附近食趣", 0, 0);
         tab[2] = NearUserFragment.newInstance("附近食友", 0, 0);
         tab[3] = ConversationFragment.newInstance("会话");
+        tab[4] = ShareListFragment.newInstance("分享");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

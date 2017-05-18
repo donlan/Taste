@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/share_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/share_extra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="start"
+        android:hint="分享说明.."
+        android:minHeight="60dp" />
+
+    <dong.lan.library.LabelTextView
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginRight="46dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="分享"
+        android:textColor="@color/main_text_color"
+        android:textSize="20sp"
+        app:bg_color="@color/main_text_color"
+        app:radius="25dp"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择分享用户"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/usersList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp" />
+</LinearLayout>

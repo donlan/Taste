@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
@@ -60,7 +61,7 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
 
         likeIb = (ImageButton) findViewById(R.id.like);
         likeCountTv = (TextView) findViewById(R.id.likes_count);
-        shareIb = (ImageButton) findViewById(R.id.feed_share);
+        shareIb = (ImageButton) findViewById(R.id.share_shop);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,10 +75,16 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         otherInfo = (TextView) findViewById(R.id.shop_other_info);
         userlist.setLayoutManager(new GridLayoutManager(this, 1));
 
+        shareIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
         likeIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                like(likeIb,likeCountTv);
+                like(likeIb, likeCountTv);
             }
         });
 
@@ -93,6 +100,19 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
 
 
         }
+    }
+
+    private void share() {
+        if (avoShop == null) {
+            toast("无法分享没有同步过的店铺");
+            return;
+        }
+        Intent intent = new Intent(this, ShareActivity.class);
+        intent.putExtra("type", "Feed");
+        intent.putExtra("uid", avoShop.getObjectId());
+        intent.putExtra("desc", avoShop.getName());
+        intent.putExtra("json", avoShop.toString());
+        startActivity(intent);
     }
 
     @Override
@@ -116,19 +136,20 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         shopPhone.setText(poiDetailResult.getTelephone());
 
         StringBuilder sb = new StringBuilder();
-        sb.append("* 营业时间：");
+        sb.append("<p>* 营业时间：");
         sb.append(poiDetailResult.getShopHours());
-        sb.append("\n* 环境评价：");
+        sb.append("</p><p>* 环境评价：");
         sb.append(poiDetailResult.getEnvironmentRating());
-        sb.append("\n* 服务评价：");
+        sb.append("</p><p>* 服务评价：");
         sb.append(poiDetailResult.getServiceRating());
-        sb.append("\n* 设施评价：");
+        sb.append("</p><p>* 设施评价：");
         sb.append(poiDetailResult.getFacilityRating());
-        sb.append("\n* 收藏量：");
+        sb.append("</p><p>* 收藏量：");
         sb.append(poiDetailResult.getFavoriteNum());
-        sb.append("\n* 详情：");
+        sb.append("</p><p>* 详情：<a>");
         sb.append(poiDetailResult.getDetailUrl());
-        otherInfo.setText(sb.toString());
+        sb.append("</a></p>");
+        otherInfo.setText(Html.fromHtml(sb.toString()));
 
 
         AVQuery<AVOShop> query = new AVQuery<>("Shop");

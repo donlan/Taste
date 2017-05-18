@@ -28,7 +28,6 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.blankj.ALog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOShop;
@@ -100,6 +99,11 @@ public class MainMapPresenter implements MainMapContract.Presenter {
         }
     }
 
+    /**
+     * 查询路线
+     * @param position
+     * @param baiduMap
+     */
     @Override
     public void queryRoute(LatLng position, final BaiduMap baiduMap) {
         BDLocation location = LocationService.service().getLastLocation();
@@ -163,12 +167,6 @@ public class MainMapPresenter implements MainMapContract.Presenter {
                 }
             });
         }
-        BNRoutePlanNode sNode = new BNRoutePlanNode(location.getLongitude(), location.getLatitude(), "起点", null, coType);
-        BNRoutePlanNode eNode = new BNRoutePlanNode(position.longitude, position.latitude, "终点", null, coType);
-
-        List<BNRoutePlanNode> list = new ArrayList<>(2);
-        list.add(sNode);
-        list.add(eNode);
 
         PlanNode sPlanNode = PlanNode.withLocation(new LatLng(location.getLatitude(), location.getLongitude()));
         PlanNode ePlanNode = PlanNode.withLocation(position);

@@ -11,6 +11,7 @@ import dong.lan.avoscloud.bean.AVOFeed;
 import dong.lan.avoscloud.bean.AVOFeedImage;
 import dong.lan.avoscloud.bean.AVOGuide;
 import dong.lan.avoscloud.bean.AVOLabel;
+import dong.lan.avoscloud.bean.AVOShare;
 import dong.lan.avoscloud.bean.AVOShop;
 import dong.lan.avoscloud.bean.AVOUser;
 
@@ -27,6 +28,7 @@ public final class ModelConfig {
         AVObject.registerSubclass(AVOGuide.class);
         AVObject.registerSubclass(AVOUser.class);
         AVObject.registerSubclass(AVOShop.class);
+        AVObject.registerSubclass(AVOShare.class);
         AVOSCloud.initialize(appContext, API_ID, API_KEY);
         AVOSCloud.setDebugLogEnabled(true);
     }

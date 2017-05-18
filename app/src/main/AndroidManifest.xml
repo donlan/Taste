@@ -27,6 +27,7 @@
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.ShopDetailActivity"/>
         <activity android:name=".activity.FavoriteActivity"/>
+        <activity android:name=".activity.ShareActivity"/>
     </application>
 
 </manifest>
