@@ -20,10 +20,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (AVOUser.getCurrentUser() == null) {
+        if (AVOUser.getCurrentUser() == null) { //没有登录则直接跳转到登陆页面
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-        } else {
+        } else { //否则直接进入主页
             setContentView(R.layout.activity_splash);
             new Handler().sendEmptyMessageDelayed(0, 1000);
         }

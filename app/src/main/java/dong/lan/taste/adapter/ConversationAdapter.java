@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,14 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         AVIMConversation conversation = conversations.get(position);
         holder.name.setText(conversation.getName());
         AVIMMessage message = conversation.getLastMessage();
-        if(message!=null)
-            holder.msg.setText(message.getContent());
+        if (message != null) {
+            if (message instanceof AVIMTextMessage) {
+                AVIMTextMessage textMessage = (AVIMTextMessage) message;
+                holder.msg.setText(textMessage.getText());
+            } else {
+                holder.msg.setText(message.getContent());
+            }
+        }
     }
 
     @Override
@@ -57,7 +64,16 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     }
 
     public void loadMore(List<AVIMConversation> list) {
+        conversations.clear();
         conversations.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void newConversation(AVIMConversation conversation) {
+        if (!conversations.contains(conversation)) {
+            conversations.add(conversation);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +89,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             name = (TextView) itemView.findViewById(R.id.item_conversation_name);
             msg = (TextView) itemView.findViewById(R.id.item_conversation_msg);
 
-            if(clickListener!=null) {
+            if (clickListener != null) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

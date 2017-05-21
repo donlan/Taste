@@ -25,9 +25,7 @@ import dong.lan.taste.R;
 import dong.lan.taste.adapter.FeedsAdapter;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ *食趣收藏页面
  */
 
 public class FeedFavoriteFragment extends BaseFragment implements OnLoadMoreListener, BaseItemClickListener<AVOFeed> {

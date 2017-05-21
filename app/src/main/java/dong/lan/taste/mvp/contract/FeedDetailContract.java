@@ -8,6 +8,7 @@ import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOFeedImage;
 import dong.lan.avoscloud.bean.AVOLabel;
+import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.base.ui.IActivityFunc;
 import dong.lan.base.ui.ProgressView;
 
@@ -23,6 +24,8 @@ public interface FeedDetailContract {
         void showLabels(List<AVOLabel> labels);
 
         void showContent(String content);
+
+        void showUserInfo(AVOUser creator);
     }
 
     public interface Presenter {
@@ -33,6 +36,8 @@ public interface FeedDetailContract {
         void saveLike();
 
         void share();
+
+        void toUserCenter();
     }
 
     public interface Model {

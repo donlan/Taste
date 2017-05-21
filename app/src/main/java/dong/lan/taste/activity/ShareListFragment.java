@@ -23,9 +23,7 @@ import dong.lan.taste.R;
 import dong.lan.taste.adapter.SharesAdapter;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ *用户的分享列表页面，显示的分享包括，自己发送给别人的，别人分享给自己的
  */
 
 public class ShareListFragment extends BaseFragment implements OnLoadMoreListener {
@@ -61,6 +59,8 @@ public class ShareListFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     public void onLoadMore() {
+        //获取所有与当前用户有关的分享内容
+
         AVQuery<AVOShare> query = new AVQuery<>("Share");
         query.whereEqualTo("likes", AVOUser.getCurrentUser());
         query.orderByDescending("updatedAt");

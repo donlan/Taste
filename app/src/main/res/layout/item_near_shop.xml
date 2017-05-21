@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:rcv_backgroundColor="@color/white"
-    app:rcv_elevation="@dimen/dp_10"
-    android:paddingTop="24dp"
-    android:paddingBottom="24dp"
-    app:rcv_elevationColor="@color/grey"
+    app:rcv_elevation="6dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    app:rcv_elevationColor="#aaa"
     app:rcv_marginY="10dp"
 
     >

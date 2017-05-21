@@ -79,6 +79,7 @@ public class CreateFeedActivity extends BaseActivity implements TagCloudView.OnT
         visitableIb.setOnClickListener(this);
 
 
+        //选取手机照片的工具初始化
         FunctionConfig config = new FunctionConfig();
         config.setCompress(true);
         config.setEnableCrop(true);
@@ -110,7 +111,7 @@ public class CreateFeedActivity extends BaseActivity implements TagCloudView.OnT
      * @param labelEvent
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    void onPickLabel(PickLabelEvent labelEvent) {
+    public void onPickLabel(PickLabelEvent labelEvent) {
         labels = labelEvent.labels;
         tagCloudView.setData(labels);
         tagCloudView.getAdapter().notifyDataSetChanged();
@@ -219,6 +220,7 @@ public class CreateFeedActivity extends BaseActivity implements TagCloudView.OnT
                     if (paths != null) {
                         for (String p : paths) {
                             try {
+                                //保存图片
                                 final AVFile file = new AVFile(FileUtil.PathToFileName(p),FileUtil.File2byte(p));
                                 file.saveInBackground(new SaveCallback() {
                                     @Override

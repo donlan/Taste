@@ -1,5 +1,6 @@
 package dong.lan.taste.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,9 +25,7 @@ import dong.lan.taste.R;
 import dong.lan.taste.adapter.FavoriteShopAdapter;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ * 店铺收藏页面
  */
 
 public class FavoriteShopFragment extends BaseFragment implements OnLoadMoreListener, BaseItemClickListener<AVOShop> {
@@ -65,6 +64,7 @@ public class FavoriteShopFragment extends BaseFragment implements OnLoadMoreList
     public void onLoadMore() {
         AVOUser user = AVOUser.getCurrentUser();
 
+        //查找出用户收藏的所有店铺
         AVQuery<AVOShop> query = new AVQuery<>("Shop");
         query.skip(count);
         query.include("likes");
@@ -78,7 +78,7 @@ public class FavoriteShopFragment extends BaseFragment implements OnLoadMoreList
                     if (list == null || list.isEmpty()) {
                         toast("无店铺收藏");
                     } else {
-                        showFeed(list);
+                        showShop(list);
                     }
                 } else {
                     dialog("获取店铺收藏失败，错误码：" + e.getCode());
@@ -87,13 +87,15 @@ public class FavoriteShopFragment extends BaseFragment implements OnLoadMoreList
         });
     }
 
-    private void showFeed(List<AVOShop> list) {
+    //将获取到的店铺数据封装到适配器中进行显示
+    private void showShop(List<AVOShop> list) {
         int s = list.size();
         if (adapter == null) {
             adapter = new FavoriteShopAdapter();
             adapter.loadMore(list);
             adapter.setClickListener(this);
             shopList.setAdapter(new LRecyclerViewAdapter(adapter));
+            shopList.setPullRefreshEnabled(false);
         } else {
             adapter.loadMore(list);
         }
@@ -102,9 +104,12 @@ public class FavoriteShopFragment extends BaseFragment implements OnLoadMoreList
         }
     }
 
+    //点击店铺后条状到店铺详情页面
     @Override
     public void onClick(AVOShop data, int action, int position) {
-
+        Intent detailIntent = new Intent(getContext(), ShopDetailActivity.class);
+        detailIntent.putExtra("uid", data.getUid());
+        startActivity(detailIntent);
     }
 
 

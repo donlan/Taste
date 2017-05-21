@@ -95,7 +95,7 @@ public class AVOUser extends AVObject {
     }
 
     public void setAvatar(AVFile file) {
-        super.put("avatar", file);
+        put("avatar", file);
     }
 
     public void setLastLocation(double latitude, double longitude) {

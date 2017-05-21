@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,6 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -43,14 +43,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import dong.lan.avoscloud.bean.AVOFeed;
-import dong.lan.avoscloud.bean.AVOLabel;
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.base.ui.BaseActivity;
 import dong.lan.base.ui.BaseFragment;
 import dong.lan.base.ui.base.Config;
 import dong.lan.base.ui.customView.CircleImageView;
-import dong.lan.base.ui.customView.PinCircleImageView;
 import dong.lan.library.LabelTextView;
 import dong.lan.map.service.LocationService;
 import dong.lan.map.utils.MapHelper;
@@ -58,9 +55,8 @@ import dong.lan.permission.CallBack;
 import dong.lan.permission.Permission;
 import dong.lan.taste.App;
 import dong.lan.taste.R;
-import dong.lan.taste.event.ConvEvent;
+import dong.lan.taste.event.ConvInitEvent;
 import dong.lan.taste.event.MarkerEvent;
-import dong.lan.taste.helper.FeedMarkerHelper;
 import dong.lan.taste.mvp.contract.MainMapContract;
 import dong.lan.taste.mvp.presenter.MainMapPresenter;
 
@@ -87,6 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageButton markerGuide;
     private ImageButton markerDetail;
     private TextView markerInfo;
+    private AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +93,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    private boolean isFirstLoc = true;
+    private boolean isFirstLoc = true; //判读是否是第一次定位
+    //百度定位的结果回调，没获取一次定位，就行一次这里的方法
     private LocationService.LocationCallback locationCallback = new LocationService.LocationCallback() {
         @Override
         public void onLocation(BDLocation location, String error) {
@@ -115,6 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     };
 
 
+    //状态栏的搜索栏，点击搜索后悔执行到这里
     private MaterialSearchView.OnQueryTextListener queryTextListener = new MaterialSearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
@@ -142,7 +141,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         toolbar.setTitle("");
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.main_collapsing);
         collapsingToolbarLayout.setScrimsShown(false);
@@ -166,10 +165,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         usernameTv = (TextView) menuView.findViewById(R.id.username);
         avatar = (CircleImageView) menuView.findViewById(R.id.user_avatar);
         avatar.setOnClickListener(this);
+        //初始化侧滑菜单
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withMenuView(menuView)
                 .inject();
         slidingRootNav.closeMenu();
+
         mapView = (MapView) findViewById(R.id.mapView);
         baiduMap = mapView.getMap();
         baiduMap.setOnMarkerClickListener(this);
@@ -185,6 +186,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         baiduMap.setOnMapClickListener(this);
 
+        //为了适配Android 6.0以上的手机，这里进行动态权限申请
         List<String> pers = new ArrayList<>(5);
         pers.add(Manifest.permission.ACCESS_FINE_LOCATION);
         pers.add(Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -198,26 +200,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     LocationService.service().registerCallback(MainActivity.this, locationCallback);
             }
         }, this, pers);
+
+
         EventBus.getDefault().register(this);
+
+        //初始化聊天连接
         App.myApp().initIM();
+
+        //显示用户头像
         AVOUser user = AVOUser.getCurrentUser();
         Glide.with(this).load(user.getAvatar() == null ? "" : user.getAvatar().getUrl())
                 .error(R.drawable.head)
                 .into(avatar);
         usernameTv.setText(user.getDisplayName());
+
     }
 
+    //会话连接初始化完毕，开始查找所有会话信息
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void convEvent(ConvEvent convEvent) {
+    public void convEvent(ConvInitEvent convInitEvent) {
         ((BaseFragment) tab[3]).start(null);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLabelQuery(AVOLabel label) {
-    }
+
 
     private Marker curMarker;
 
+    //将从附近店铺，附近食趣，附近食友页面发送过来的位置信息通过一个图标在地图上显示
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarkerEvent(MarkerEvent event) {
         baiduMap.clear();
@@ -225,6 +234,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         curMarker = MapHelper.drawMarker(baiduMap, point, BitmapDescriptorFactory.fromResource(R.drawable.location_flag));
         curMarker.setExtraInfo(event.data);
         MapHelper.setLocation(point, baiduMap, true);
+        appBarLayout.setExpanded(true);
     }
 
     @Override
@@ -290,20 +300,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            //点击地图上的图标，根据图标里内容跳转到不同页面
             case R.id.hone_marker_detal:
                 Bundle bundle = curMarker.getExtraInfo();
-                if (bundle.getInt("type", -1) == Config.MARKER_TYPE_SHOP) {
+
+                int type = bundle.getInt("type", -1);
+                if (type == Config.MARKER_TYPE_SHOP) {
                     Intent detailIntent = new Intent(this, ShopDetailActivity.class);
                     detailIntent.putExtra("uid", ((PoiInfo) bundle.getParcelable("data")).uid);
                     startActivity(detailIntent);
+                } else if (type == Config.MARKER_TYPE_FEED) {
+                    Intent feedIntent = new Intent(this, FeedDetailActivity.class);
+                    feedIntent.putExtra("feed", bundle.getParcelable("data").toString());
+                    startActivity(feedIntent);
+                } else if (type == Config.MARKER_TYPE_USER) {
+                    Intent intent = new Intent(this, UserCenterActivity.class);
+                    AVOUser user = bundle.getParcelable("data");
+                    intent.putExtra("userSeq", user.toString());
+                    intent.putExtra("id", user.getObjectId());
+                    startActivity(intent);
                 }
                 markerLayout.setVisibility(View.GONE);
                 break;
             case R.id.hone_marker_like:
                 Bundle bundle1 = curMarker.getExtraInfo();
-                presenter.likeShop(((PoiInfo) bundle1.getParcelable("data")));
-                markerLayout.setVisibility(View.GONE);
+                type = bundle1.getInt("type", -1);
+                if (type == Config.MARKER_TYPE_SHOP) {
+                    presenter.likeShop(((PoiInfo) bundle1.getParcelable("data")));
+                    markerLayout.setVisibility(View.GONE);
+                } else if (type == Config.MARKER_TYPE_FEED) {
+                    Intent feedIntent = new Intent(this, FeedDetailActivity.class);
+                    feedIntent.putExtra("feed", bundle1.getParcelable("data").toString());
+                    startActivity(feedIntent);
+                } else if (type == Config.MARKER_TYPE_USER) {
+                    Intent intent = new Intent(this, UserCenterActivity.class);
+                    AVOUser user = bundle1.getParcelable("data");
+                    intent.putExtra("userSeq", user.toString());
+                    intent.putExtra("id", user.getObjectId());
+                    startActivity(intent);
+                }
                 break;
+            //点击地图图标的导航按钮，则根据用户自己的位置，与图标的位置进行计算路径
             case R.id.hone_marker_line:
                 if (curMarker != null) {
                     presenter.queryRoute(curMarker.getPosition(), baiduMap);
@@ -340,49 +377,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void showNearUser(List<AVOUser> users) {
-        if (!users.isEmpty())
-            baiduMap.clear();
-        for (AVOUser user : users) {
-            View view = LayoutInflater.from(this).inflate(R.layout.map_user_head_pin, null);
-            PinCircleImageView pin = (PinCircleImageView) view.findViewById(R.id.pin_user_head);
-            Glide.with(this)
-                    .load(user.getAvatar() == null ? "" : user.getAvatar().getUrl())
-                    .error(R.drawable.head)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.head)
-                    .into(pin);
-            Marker marker = MapHelper.drawMarker(baiduMap,
-                    new LatLng(user.getLastLocation().getLatitude(),
-                            user.getLastLocation().getLongitude()),
-                    BitmapDescriptorFactory.fromView(view), 0.5f, 1f);
-            marker.setDraggable(false);
-            Bundle data = new Bundle();
-            data.putInt("type", 0);
-            data.putString("user", user.toString());
-            marker.setExtraInfo(data);
-        }
-    }
 
-    @Override
-    public void showNearFeed(List<AVOFeed> feeds) {
-        if (!feeds.isEmpty())
-            baiduMap.clear();
-        for (AVOFeed feed : feeds) {
 
-            Marker marker = MapHelper.drawMarker(baiduMap,
-                    new LatLng(feed.getLocation().getLatitude(),
-                            feed.getLocation().getLongitude()),
-                    BitmapDescriptorFactory.fromView(FeedMarkerHelper.instance()
-                            .formMarkerView(this, feed)), 0.5f, 1f);
-            marker.setDraggable(false);
-            Bundle data = new Bundle();
-            data.putInt("type", 1);
-            data.putString("feed", feed.toString());
-            marker.setExtraInfo(data);
-        }
-    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {

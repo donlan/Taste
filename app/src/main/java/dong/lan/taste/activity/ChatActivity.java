@@ -22,7 +22,7 @@ import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import java.util.List;
 
 import dong.lan.base.ui.BaseBarActivity;
-import dong.lan.base.ui.Dialog;
+import dong.lan.map.activity.PickLocationActivity;
 import dong.lan.map.service.Config;
 import dong.lan.taste.R;
 import dong.lan.taste.adapter.ChatAdapter;
@@ -74,15 +74,23 @@ public class ChatActivity extends BaseBarActivity implements View.OnClickListene
             }
         });
 
+        findViewById(R.id.send_location_msg)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ChatActivity.this, PickLocationActivity.class);
+                        startActivityForResult(intent, Config.RESULT_LOCATION);
+                    }
+                });
         presenter = new ChatPresenter(this);
 
 
         String conversationId = getIntent().getStringExtra(dong.lan.base.ui.base.Config.INTENT_CONVERSATION);
         String userStr = getIntent().getStringExtra(dong.lan.base.ui.base.Config.INTENT_USER);
 
-        if(TextUtils.isEmpty(conversationId))
-        presenter.start(userStr);
-        else{
+        if (TextUtils.isEmpty(conversationId))
+            presenter.start(userStr);
+        else {
             presenter.startById(conversationId);
         }
 
@@ -119,18 +127,8 @@ public class ChatActivity extends BaseBarActivity implements View.OnClickListene
             address = data.getStringExtra(Config.LOC_ADDRESS);
             latitude = data.getDoubleExtra(Config.LATITUDE, 0);
             longitude = data.getDoubleExtra(Config.LONGITUDE, 0);
-            if(latitude!=0 && longitude!=0) {
-                new Dialog(this)
-                        .setMessageText("确定发起协同定位导航？")
-                        .setClickListener(new Dialog.DialogClickListener() {
-                            @Override
-                            public boolean onDialogClick(int which) {
-                                if (which == Dialog.CLICK_RIGHT) {
-                                    presenter.newGuide(latitude, longitude, address);
-                                }
-                                return true;
-                            }
-                        }).show();
+            if (latitude != 0 && longitude != 0) {
+                presenter.newGuide(latitude, longitude, address);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -115,7 +115,7 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
         } else {
             //关注其他用户
             user.addFriend(AVOUser.getCurrentUser());
-            userFollowerTv.setText((follower+1) + " 个关注者");
+            userFollowerTv.setText((follower + 1) + " 个关注者");
         }
     }
 
@@ -149,6 +149,8 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
             setUpView(user);
         } else if (!TextUtils.isEmpty(objId)) {
             AVQuery<AVOUser> query = new AVQuery<>("MyUser");
+            query.include("avatar");
+            query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
             query.getInBackground(objId, new GetCallback<AVOUser>() {
                 @Override
                 public void done(AVOUser avUser, AVException e) {
@@ -165,14 +167,7 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
                 }
             });
         }
-        AVQuery<AVObject> relationQuery = user.getFriends().getQuery();
-        relationQuery.countInBackground(new CountCallback() {
-            @Override
-            public void done(int i, AVException e) {
-                follower = i;
-                userFollowerTv.setText(follower + " 个关注者");
-            }
-        });
+
 
         FunctionConfig config = new FunctionConfig();
         config.setCompress(true);
@@ -185,22 +180,38 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
     }
 
 
+    private void getLikeCount(AVOUser user) {
+        AVQuery<AVObject> relationQuery = user.getFriends().getQuery();
+        relationQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, AVException e) {
+                follower = i;
+                userFollowerTv.setText(follower + " 个关注者");
+            }
+        });
+    }
+
     private FeedsAdapter feedsAdapter;
 
     private void setUpView(AVOUser user) {
+        setTitle(user.getDisplayName());
+
         Glide.with(this).load(user.getAvatar() == null ? "" : user.getAvatar().getUrl())
                 .error(R.drawable.head)
                 .into(avatar);
-
+        getLikeCount(user);
         notMe = !user.getObjectId().equals(AVOUser.getCurrentUser().getObjectId());
 
         AVQuery<AVOFeed> query = new AVQuery<>("Feed");
         query.whereEqualTo("creator", user);
         query.include("labels");
-
-        if (notMe) {
-            query.whereEqualTo("isPublic", true);
-        }
+        query.include("creator");
+        query.include("creator.user");
+        query.include("creator.avatar");
+//        if (notMe) {
+//            query.whereEqualTo("isPublic", true);
+//        }
+        //获取用户发布的食趣内容
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<AVOFeed>() {
             @Override
@@ -229,14 +240,14 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user_center_menu,menu);
+        getMenuInflater().inflate(R.menu.user_center_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_to_chat){
+        if (id == R.id.action_to_chat) {
             toChat();
         }
         return super.onOptionsItemSelected(item);

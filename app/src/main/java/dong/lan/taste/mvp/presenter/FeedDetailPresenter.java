@@ -20,6 +20,7 @@ import dong.lan.avoscloud.bean.AVOLabel;
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.taste.R;
 import dong.lan.taste.activity.ShareActivity;
+import dong.lan.taste.activity.UserCenterActivity;
 import dong.lan.taste.mvp.contract.FeedDetailContract;
 
 /**
@@ -60,6 +61,8 @@ public class FeedDetailPresenter implements FeedDetailContract.Presenter {
                 e.printStackTrace();
             }
             if(feed!=null){
+                view.showUserInfo(feed.getCreator());
+
                 final List<AVOLabel> labels = feed.getLabel();
                 view.showContent(feed.getContent());
                 view.showLabels(labels);
@@ -105,5 +108,14 @@ public class FeedDetailPresenter implements FeedDetailContract.Presenter {
         intent.putExtra("desc",feed.getContent());
         intent.putExtra("json",feed.toString());
         view.activity().startActivity(intent);
+    }
+
+    @Override
+    public void toUserCenter() {
+        if(feed!=null){
+            Intent intent = new Intent(view.activity(), UserCenterActivity.class);
+            intent.putExtra("id",feed.getCreator().getObjectId());
+            view.activity().startActivity(intent);
+        }
     }
 }

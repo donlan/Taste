@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.ALog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }
         holder.labels.setText(sb.toString());
         holder.content.setText(feeds.get(position).getContent());
+        ALog.d(feed.toString());
     }
 
     @Override

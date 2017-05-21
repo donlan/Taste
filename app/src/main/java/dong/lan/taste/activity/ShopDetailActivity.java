@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +20,8 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ import dong.lan.taste.R;
 import dong.lan.taste.adapter.UserAdapter;
 
 /**
+ * 店铺详情页
  */
 
 public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchResultListener, BaseItemClickListener<AVOUser> {
@@ -43,7 +45,7 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
     private TextView shopName;
     private TextView shopAddress;
     private TextView shopPhone;
-    private RecyclerView userlist;
+    private LRecyclerView userlist;
     private TextView otherInfo;
     private AVOShop avoShop;
     private boolean isLike;
@@ -71,10 +73,9 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         shopName = (TextView) findViewById(R.id.shop_name);
         shopAddress = (TextView) findViewById(R.id.shop_address);
         shopPhone = (TextView) findViewById(R.id.shop_phone);
-        userlist = (RecyclerView) findViewById(R.id.users_list);
+        userlist = (LRecyclerView) findViewById(R.id.users_list);
         otherInfo = (TextView) findViewById(R.id.shop_other_info);
         userlist.setLayoutManager(new GridLayoutManager(this, 1));
-
         shareIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +93,7 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         if (TextUtils.isEmpty(uid))
             finish();
         else {
+            //根据uid从百度搜索店铺详细信息
             PoiSearch poiSearch = PoiSearch.newInstance();
             PoiDetailSearchOption option = new PoiDetailSearchOption();
             option.poiUid(uid);
@@ -152,7 +154,8 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         otherInfo.setText(Html.fromHtml(sb.toString()));
 
 
-        AVQuery<AVOShop> query = new AVQuery<>("Shop");
+        //获取收藏这间店铺的所有用户
+        final AVQuery<AVOShop> query = new AVQuery<>("Shop");
         query.whereEqualTo("uid", poiDetailResult.getUid());
         query.findInBackground(new FindCallback<AVOShop>() {
             @Override
@@ -177,12 +180,15 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
                     } else {
                         avoShop = list.get(0);
                         AVQuery<AVOUser> query1 = list.get(0).getLikes().getQuery();
+                        query.include("user");
                         query1.findInBackground(new FindCallback<AVOUser>() {
                             @Override
                             public void done(List<AVOUser> list, AVException e) {
                                 if (e == null && list != null) {
                                     likeCountTv.setText(String.valueOf(list.size()));
-                                    userlist.setAdapter(new UserAdapter(list, ShopDetailActivity.this));
+                                    userlist.setAdapter(new LRecyclerViewAdapter(new UserAdapter(list, ShopDetailActivity.this)));
+                                    userlist.setLoadMoreEnabled(false);
+                                    userlist.setPullRefreshEnabled(false);
                                 }
                             }
                         });
@@ -207,6 +213,7 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
         startActivity(intent);
     }
 
+    //收藏该店铺
     public void like(ImageButton likeIcon, TextView likText) {
         if (isLike) {
             likeCount--;

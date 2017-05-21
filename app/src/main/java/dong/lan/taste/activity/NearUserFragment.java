@@ -1,6 +1,5 @@
 package dong.lan.taste.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,19 +16,21 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.base.BaseItemClickListener;
 import dong.lan.base.ui.BaseFragment;
+import dong.lan.base.ui.base.Config;
 import dong.lan.map.service.LocationService;
 import dong.lan.taste.R;
 import dong.lan.taste.adapter.UserAdapter;
+import dong.lan.taste.event.MarkerEvent;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ * 附近的用户页面
  */
 
 public class NearUserFragment extends BaseFragment implements OnLoadMoreListener, BaseItemClickListener<AVOUser> {
@@ -72,19 +73,21 @@ public class NearUserFragment extends BaseFragment implements OnLoadMoreListener
             toast("无法获取当前位置信息");
             return;
         }
+        //获取附近10公里范围内的用户
         AVQuery<AVOUser> query = new AVQuery<>("MyUser");
         AVGeoPoint point = new AVGeoPoint();
         point.setLatitude(location.getLatitude());
         point.setLongitude(location.getLongitude());
         query.whereWithinKilometers("lastLocation", point, 10);
         query.limit(100);
+        query.include("avatar");
         query.include("user");
         // query.whereEqualTo("shareLoc",true);
         query.whereNotEqualTo("objectId", AVOUser.getCurrentUser().getObjectId());
         query.findInBackground(new FindCallback<AVOUser>() {
             @Override
             public void done(List<AVOUser> list, AVException e) {
-                if (e == null) {
+                if (e == null && list!=null) {
                     toast("附近有 " + list.size() + " 个趣友");
                     showNearUser(list);
                 } else {
@@ -112,10 +115,17 @@ public class NearUserFragment extends BaseFragment implements OnLoadMoreListener
 
     @Override
     public void onClick(AVOUser data, int action, int position) {
-        Intent intent = new Intent(getContext(), UserCenterActivity.class);
-        intent.putExtra("userSeq", data.toString());
-        intent.putExtra("id", data.getObjectId());
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data", data);
+        bundle.putInt("type", Config.MARKER_TYPE_USER);
+        bundle.putString("info", data.getDisplayName());
+        MarkerEvent event = new MarkerEvent();
+        event.latitude = data.getLastLocation().getLatitude();
+        event.longitude = data.getLastLocation().getLongitude();
+        event.data = bundle;
+        event.isClearMap = true;
+
+        EventBus.getDefault().post(event);
     }
 
 }

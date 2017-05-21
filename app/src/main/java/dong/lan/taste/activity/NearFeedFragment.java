@@ -1,6 +1,5 @@
 package dong.lan.taste.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,19 +17,21 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOFeed;
 import dong.lan.base.BaseItemClickListener;
 import dong.lan.base.ui.BaseFragment;
+import dong.lan.base.ui.base.Config;
 import dong.lan.map.service.LocationService;
 import dong.lan.taste.R;
 import dong.lan.taste.adapter.FeedsAdapter;
+import dong.lan.taste.event.MarkerEvent;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ 附近食趣页面
  */
 
 public class NearFeedFragment extends BaseFragment implements OnLoadMoreListener, BaseItemClickListener<AVOFeed>, OnRefreshListener {
@@ -77,6 +78,9 @@ public class NearFeedFragment extends BaseFragment implements OnLoadMoreListener
         query.skip(count);
         query.orderByAscending("like");
         query.include("labels");
+        query.include("creator");
+        query.include("creator.user");
+        query.include("creator.avatar");
         //query.whereEqualTo("isPublic", true);
         query.findInBackground(new FindCallback<AVOFeed>() {
             @Override
@@ -115,9 +119,20 @@ public class NearFeedFragment extends BaseFragment implements OnLoadMoreListener
 
     @Override
     public void onClick(AVOFeed data, int action, int position) {
-        Intent feedIntent = new Intent(getContext(), FeedDetailActivity.class);
-        feedIntent.putExtra("feed", data.toString());
-        startActivity(feedIntent);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data", data);
+        bundle.putInt("type", Config.MARKER_TYPE_FEED);
+        bundle.putString("info", data.getContent());
+        MarkerEvent event = new MarkerEvent();
+        event.latitude = data.getLocation().getLatitude();
+        event.longitude = data.getLocation().getLongitude();
+        event.data = bundle;
+        event.isClearMap = true;
+
+        EventBus.getDefault().post(event);
+
+
     }
 
     @Override

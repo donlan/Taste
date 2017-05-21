@@ -35,19 +35,19 @@ import dong.lan.taste.adapter.ShopAdapter;
 import dong.lan.taste.event.MarkerEvent;
 
 /**
- * Created by 梁桂栋 on 2017/5/13.
- * Email: 760625325@qq.com
- * Github: github.com/donlan
+ * 附近店铺页面
  */
 
 public class NearShopFragment extends BaseFragment implements OnLoadMoreListener, BaseItemClickListener<PoiInfo>, OnRefreshListener {
 
+    //搜索结果，回调
     private OnGetPoiSearchResultListener poiSearchResultListener = new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult result) {
             if (result.error != SearchResult.ERRORNO.NO_ERROR) {
                 ALog.d(result.error);
             } else {
+                //将搜索结果封装到适配器进行显示
                 List<PoiInfo> infos = result.getAllPoi();
                 if (adapter == null) {
                     adapter = new ShopAdapter();
@@ -123,6 +123,7 @@ public class NearShopFragment extends BaseFragment implements OnLoadMoreListener
 
     @Override
     public void onLoadMore() {
+        //通过百度检索服务，搜索当前城市的关键字为 美食  的店铺
         BDLocation location = LocationService.service().getLastLocation();
         PoiSearch search = PoiSearch.newInstance();
         search.setOnGetPoiSearchResultListener(poiSearchResultListener);
@@ -162,6 +163,7 @@ public class NearShopFragment extends BaseFragment implements OnLoadMoreListener
 
     boolean isQuery = false;
 
+    //如果是搜索附近店铺，根据用户输入的内容作为关键字进行搜索
     public void query(String query) {
         ALog.d(query);
         isQuery = true;

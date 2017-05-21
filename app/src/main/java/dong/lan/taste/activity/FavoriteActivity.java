@@ -13,7 +13,7 @@ import dong.lan.base.ui.BaseActivity;
 import dong.lan.taste.R;
 
 /**
- * describe ：收藏页面
+ * describe ：收藏页面：子页面包括食趣收藏，店铺收藏
  */
 
 public class FavoriteActivity extends BaseActivity {

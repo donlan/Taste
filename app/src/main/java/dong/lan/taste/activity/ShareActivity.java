@@ -22,6 +22,7 @@ import dong.lan.taste.R;
 import dong.lan.taste.adapter.UserSelectAdapter;
 
 /**
+ * 分享页面
  */
 
 public class ShareActivity extends BaseActivity {
@@ -80,10 +81,12 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void share() {
+        //获取分享给指定的用户，没有选定分享用户则不能分享
         if (adapter == null || adapter.getSelectUsers() == null || adapter.getSelectUsers().isEmpty()) {
             toast("无分享用户");
             return;
         }
+        //创建分享
         AVOShare share = new AVOShare();
         share.setUid(uid);
         share.setCreator(AVOUser.getCurrentUser());

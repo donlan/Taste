@@ -18,7 +18,6 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -72,7 +71,7 @@ public class PickLocationActivity extends AppCompatActivity {
     }
 
     private void toast(String text) {
-        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
     EditText searchInput;
@@ -102,6 +101,7 @@ public class PickLocationActivity extends AppCompatActivity {
         option.pageNum(1);
         poiSearch.searchInCity(option);
     }
+
     MapView mapView;
     EditText locationText;
     private BaiduMap baiduMap;
@@ -112,15 +112,12 @@ public class PickLocationActivity extends AppCompatActivity {
     private PoiSearch poiSearch;
     private LocationService.LocationCallback locationCallback = new LocationService.LocationCallback() {
         @Override
-        public void onLocation(BDLocation bdLocation,String error) {
+        public void onLocation(BDLocation bdLocation, String error) {
             baiduMap.setMyLocationEnabled(true);
-            MyLocationConfiguration configuration = new MyLocationConfiguration(
-                    MyLocationConfiguration.LocationMode.NORMAL, true,
-                    BitmapDescriptorFactory.fromResource(R.drawable.location));
-            baiduMap.setMyLocationConfigeration(configuration);
             MapHelper.setLocation(bdLocation, baiduMap, isFirstLocation);
+            pickMarker = MapHelper.drawMarker(baiduMap, new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()), pickFlag);
             isFirstLocation = false;
-           LocationService.service().unregisterCallback(PickLocationActivity.this);
+            LocationService.service().unregisterCallback(PickLocationActivity.this);
             setCityText(bdLocation.getCity());
         }
     };
@@ -207,6 +204,8 @@ public class PickLocationActivity extends AppCompatActivity {
 
     private void initView() {
 
+        pickFlag = BitmapDescriptorFactory.fromResource(R.drawable.location_flag);
+
         findViewById(R.id.pick_location_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,11 +230,11 @@ public class PickLocationActivity extends AppCompatActivity {
                 if (geoSearch == null) {
                     geoSearch = GeoCoder.newInstance();
                     geoSearch.setOnGetGeoCodeResultListener(geoCoderResultListener);
-                    pickFlag = BitmapDescriptorFactory.fromResource(R.drawable.location_flag);
-                    pickMarker = MapHelper.drawMarker(baiduMap, latLng, pickFlag);
-                } else {
-                    pickMarker.setPosition(latLng);
                 }
+                if (pickMarker == null) {
+                    pickMarker = MapHelper.drawMarker(baiduMap, latLng, pickFlag);
+                } else
+                    pickMarker.setPosition(latLng);
                 ReverseGeoCodeOption option = new ReverseGeoCodeOption();
                 option.location(latLng);
                 geoSearch.reverseGeoCode(option);

@@ -9,6 +9,8 @@ public final class Config {
     public static final String INTENT_USER = "userSeq";
     public static final String INTENT_CONVERSATION = "conversation";
     public static final int MARKER_TYPE_SHOP = 101;
+    public static final int MARKER_TYPE_FEED = 102;
+    public static final int MARKER_TYPE_USER = 103;
 
     private Config() {
         //no instance
