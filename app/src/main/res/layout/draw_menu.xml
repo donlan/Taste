@@ -44,6 +44,7 @@
         android:drawablePadding="30dp"
         android:drawableLeft="@drawable/ic_logout"
         android:textSize="18sp"
+        android:textColor="#d35400"
         app:bg_color="@color/draw_menu_bg"
         app:radius="25dp"
         app:strokeWidth="1dp" />
@@ -76,6 +77,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="60dp"
                 android:text="@string/me"
+                android:textColor="@color/draw_menu_color"
                 android:textSize="18sp"
                 app:bg_color="@color/draw_menu_bg"
                 app:radius="25dp"
@@ -97,6 +99,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="60dp"
                 android:text="@string/favorite"
+                android:textColor="@color/draw_menu_color"
                 android:textSize="18sp"
                 app:bg_color="@color/draw_menu_bg"
                 app:radius="25dp"
@@ -118,12 +121,13 @@
                 android:paddingRight="60dp"
                 android:text="@string/friends"
                 android:textSize="18sp"
+                android:textColor="@color/draw_menu_color"
                 app:bg_color="@color/draw_menu_bg"
                 app:radius="25dp"
                 app:strokeWidth="1dp" />
 
 
-
+<!--
             <dong.lan.library.LabelTextView
                 android:id="@+id/setting"
                 android:layout_width="wrap_content"
@@ -143,6 +147,8 @@
                 app:bg_color="@color/draw_menu_bg"
                 app:radius="25dp"
                 app:strokeWidth="1dp" />
+
+                -->
 
         </LinearLayout>
 

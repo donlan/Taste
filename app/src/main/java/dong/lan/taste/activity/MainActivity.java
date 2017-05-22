@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     isFirstLoc = false;
                     ((BaseFragment) tab[0]).start(null);
                     ((BaseFragment) tab[1]).start(null);
-                    ((BaseFragment) tab[2]).start(null);
+                    ((BaseFragment) tab[3]).start(null);
                 }
             }
         }
@@ -132,12 +132,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initView() {
 
-        tab = new Fragment[5];
-        tab[0] = NearShopFragment.newInstance("附近店铺", 0, 0);
-        tab[1] = NearFeedFragment.newInstance("附近食趣", 0, 0);
-        tab[2] = NearUserFragment.newInstance("附近食友", 0, 0);
-        tab[3] = ConversationFragment.newInstance("会话");
-        tab[4] = ShareListFragment.newInstance("分享");
+        tab = new Fragment[4];
+        tab[0] = NearShopFragment.newInstance("店铺", 0, 0);
+        tab[1] = NearUserFragment.newInstance("食友", 0, 0);
+        tab[2] = ConversationFragment.newInstance("会话");
+        tab[3] = ShareListFragment.newInstance("分享");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -159,7 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         menuView.findViewById(R.id.me).setOnClickListener(this);
         menuView.findViewById(R.id.favorite).setOnClickListener(this);
-        menuView.findViewById(R.id.setting).setOnClickListener(this);
+       // menuView.findViewById(R.id.setting).setOnClickListener(this);
         menuView.findViewById(R.id.logout).setOnClickListener(this);
         menuView.findViewById(R.id.friends).setOnClickListener(this);
         usernameTv = (TextView) menuView.findViewById(R.id.username);
@@ -219,14 +218,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     //会话连接初始化完毕，开始查找所有会话信息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void convEvent(ConvInitEvent convInitEvent) {
-        ((BaseFragment) tab[3]).start(null);
+        ((BaseFragment) tab[2]).start(null);
     }
 
 
 
     private Marker curMarker;
 
-    //将从附近店铺，附近食趣，附近食友页面发送过来的位置信息通过一个图标在地图上显示
+    //将从附近店铺,附近食友页面发送过来的位置信息通过一个图标在地图上显示
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarkerEvent(MarkerEvent event) {
         baiduMap.clear();
@@ -364,9 +363,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.favorite:
                 startActivity(new Intent(this, FavoriteActivity.class));
                 break;
-            case R.id.setting:
+           //case R.id.setting:
                 // startActivity(new Intent(this, SettingActivity.class));
-                break;
+             //   break;
             case R.id.logout:
                 AVOUser.logOut();
                 finish();

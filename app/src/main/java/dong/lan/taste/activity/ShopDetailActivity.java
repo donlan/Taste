@@ -179,11 +179,13 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
                         });
                     } else {
                         avoShop = list.get(0);
-                        AVQuery<AVOUser> query1 = list.get(0).getLikes().getQuery();
-                        query.include("user");
+                        AVQuery<AVOUser> query1 = avoShop.getLikes().getQuery();
+                        query1.include("user");
+                        query1.include("avatar");
                         query1.findInBackground(new FindCallback<AVOUser>() {
                             @Override
                             public void done(List<AVOUser> list, AVException e) {
+
                                 if (e == null && list != null) {
                                     likeCountTv.setText(String.valueOf(list.size()));
                                     userlist.setAdapter(new LRecyclerViewAdapter(new UserAdapter(list, ShopDetailActivity.this)));

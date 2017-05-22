@@ -30,7 +30,7 @@ public class FriendsActivity extends BaseBarActivity implements BaseItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
-        bindView("趣友");
+        bindView("食友");
 
         friendsList = (LRecyclerView) findViewById(R.id.friends_list);
 

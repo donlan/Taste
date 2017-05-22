@@ -88,7 +88,7 @@ public class NearUserFragment extends BaseFragment implements OnLoadMoreListener
             @Override
             public void done(List<AVOUser> list, AVException e) {
                 if (e == null && list!=null) {
-                    toast("附近有 " + list.size() + " 个趣友");
+                    toast("附近有 " + list.size() + " 个食友");
                     showNearUser(list);
                 } else {
                     dialog("找不到附近的用户，错误码：" + e.getCode());

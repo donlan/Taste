@@ -212,20 +212,22 @@ public class UserCenterActivity extends BaseActivity implements BaseItemClickLis
 //            query.whereEqualTo("isPublic", true);
 //        }
         //获取用户发布的食趣内容
+        query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<AVOFeed>() {
             @Override
             public void done(List<AVOFeed> list, AVException e) {
-                feedsStatusTv.setText((list == null ? 0 : list.size()) + "个图趣");
+                feedsStatusTv.setText((list == null ? 0 : list.size()) + "个分享");
                 if (e == null) {
                     if (list == null || list.isEmpty()) {
-                        toast("无图趣");
+                        toast("无发布内容");
                     } else {
                         feedsAdapter = new FeedsAdapter(list, UserCenterActivity.this);
                         feedListView.setAdapter(new LRecyclerViewAdapter(feedsAdapter));
+                        feedListView.setPullRefreshEnabled(false);
                     }
                 } else {
-                    dialog("获取用户图趣失败，错误码：" + e.getCode());
+                    dialog("获取用户失败，错误码：" + e.getCode());
                 }
             }
         });

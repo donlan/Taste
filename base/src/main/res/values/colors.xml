@@ -8,5 +8,7 @@
     <color name="grey_1">#eeeeee</color>
     <color name="main_text_color">#232323</color>
     <color name="line">#efefef</color>
-    <color name="label_item_color">#595a86</color>
+    <color name="label_item_color">#2ecc71</color>
+    <color name="main_icon_color">#2ecc71</color>
+    <color name="draw_menu_color">#3498db</color>
 </resources>

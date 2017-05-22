@@ -14,6 +14,7 @@
     >
 
     <ImageView
+        android:src="@drawable/shop"
         android:id="@+id/item_shop_image"
         android:layout_width="100dp"
         android:layout_height="100dp"

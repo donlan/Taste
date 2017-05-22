@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             if (message instanceof AVIMTextMessage) {
                 AVIMTextMessage textMessage = (AVIMTextMessage) message;
                 holder.msg.setText(textMessage.getText());
+            } else if (message instanceof AVIMLocationMessage) {
+                AVIMLocationMessage locationMessage = (AVIMLocationMessage) message;
+                holder.msg.setText(locationMessage.getText());
             } else {
                 holder.msg.setText(message.getContent());
             }

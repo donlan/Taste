@@ -19,7 +19,7 @@
         android:textSize="16sp"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:text="在地图上遇到有趣"
+        android:text="在地图上发现美食"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

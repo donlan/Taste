@@ -62,6 +62,7 @@ public class ShareActivity extends BaseActivity {
         final AVOUser avoUser = AVOUser.getCurrentUser();
         AVQuery<AVOUser> query = avoUser.getFriends().getQuery();
         query.include("user");
+        query.include("avatar");
         query.findInBackground(new FindCallback<AVOUser>() {
             @Override
             public void done(List<AVOUser> list, AVException e) {

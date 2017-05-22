@@ -91,11 +91,11 @@ public class AVOUser extends AVObject {
     }
 
     public AVFile getAvatar() {
-        return getAVFile("avatar");
+        return super.getAVFile("avatar");
     }
 
     public void setAvatar(AVFile file) {
-        put("avatar", file);
+        super.put("avatar", file);
     }
 
     public void setLastLocation(double latitude, double longitude) {
