@@ -35,4 +35,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.blankj:alog:0.0.2'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
+    compile 'com.github.Jomes:routerSDK:v1.0.3-alpha'
 }

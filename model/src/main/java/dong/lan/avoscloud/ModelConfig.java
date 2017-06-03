@@ -17,8 +17,8 @@ import dong.lan.avoscloud.bean.AVOUser;
 
 
 public final class ModelConfig {
-    private static final String API_ID = "vtLil59BTSwVFGrFddyDhfI5-9Nh9j0Va";
-    private static final String API_KEY = "t7YnOqmL3D60ThObsdulYCf0";
+    private static final String API_ID = "nwLtwqR8Uhvt1XM8DeVa27vS-gzGzoHsz";
+    private static final String API_KEY = "9rVfFNFTvRcRy2tlGBzNcuxa";
 
     public static void init(Context appContext) {
         AVObject.registerSubclass(AVOLabel.class);

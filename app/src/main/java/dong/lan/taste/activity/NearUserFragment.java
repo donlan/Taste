@@ -78,7 +78,7 @@ public class NearUserFragment extends BaseFragment implements OnLoadMoreListener
         AVGeoPoint point = new AVGeoPoint();
         point.setLatitude(location.getLatitude());
         point.setLongitude(location.getLongitude());
-        query.whereWithinKilometers("lastLocation", point, 10);
+        query.whereWithinKilometers("lastLocation", point, 50);
         query.limit(100);
         query.include("avatar");
         query.include("user");

@@ -13,7 +13,6 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.GetCallback;
 import com.bumptech.glide.Glide;
 
-import java.util.Collections;
 import java.util.List;
 
 import dong.lan.avoscloud.bean.AVOFeedImage;
@@ -126,7 +125,6 @@ public class FeedDetailActivity extends BaseActivity implements FeedDetailContra
         AVQuery<AVOUser> query = new AVQuery<>("MyUser");
         query.include("avatar");
         query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        query.selectKeys(Collections.singleton("avatar"));
         query.getInBackground(creator.getObjectId(), new GetCallback<AVOUser>() {
             @Override
             public void done(AVOUser avoUser, AVException e) {

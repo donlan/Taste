@@ -1,5 +1,6 @@
 package dong.lan.taste;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
@@ -15,14 +16,19 @@ import com.blankj.ALog;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Map;
 
 import dong.lan.avoscloud.ModelConfig;
 import dong.lan.avoscloud.bean.AVOUser;
 import dong.lan.base.utils.SPHelper;
 import dong.lan.map.service.LocationService;
+import dong.lan.taste.activity.FeedDetailActivity;
+import dong.lan.taste.activity.ShopDetailActivity;
 import dong.lan.taste.event.ConvInitEvent;
 import dong.lan.taste.event.ConvMemberEvent;
 import dong.lan.taste.im.IMMessageHandler;
+import jomeslu.com.router.IRouteTableMapping;
+import jomeslu.com.router.Router;
 
 /**
  */
@@ -37,6 +43,14 @@ public class App extends MultiDexApplication {
         ModelConfig.init(this);
         SPHelper.instance().init(this,"taste");
         new ALog.Builder(this).setGlobalTag("DOOZE");
+
+        Router.initRouteTable(new IRouteTableMapping() {
+            @Override
+            public void operaRouterTable(Map<String, Class<? extends Activity>> map) {
+                map.put("Shop", ShopDetailActivity.class);
+                map.put("Feed", FeedDetailActivity.class);
+            }
+        });
     }
 
 

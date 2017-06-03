@@ -60,7 +60,8 @@ public class ShareActivity extends BaseActivity {
         shareInfo.setText(desc);
 
         final AVOUser avoUser = AVOUser.getCurrentUser();
-        AVQuery<AVOUser> query = avoUser.getFriends().getQuery();
+        AVQuery<AVOUser> query = new AVQuery<>("MyUser");
+        query.whereEqualTo("friends",avoUser);
         query.include("user");
         query.include("avatar");
         query.findInBackground(new FindCallback<AVOUser>() {
@@ -94,6 +95,7 @@ public class ShareActivity extends BaseActivity {
         share.setDescribe(shareExtra.getText().toString());
         share.setType(type);
         share.setJsonObject(json);
+        adapter.getSelectUsers().add(AVOUser.getCurrentUser());
         share.getLikes().addAll(adapter.getSelectUsers());
         share.saveInBackground(new SaveCallback() {
             @Override

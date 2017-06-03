@@ -43,4 +43,5 @@ dependencies {
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.7'
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
 }

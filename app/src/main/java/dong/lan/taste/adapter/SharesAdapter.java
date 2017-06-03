@@ -24,6 +24,11 @@ public class SharesAdapter extends RecyclerView.Adapter<SharesAdapter.ViewHolder
     private List<AVOShare> shares;
     private BaseItemClickListener<AVOShare> clickListener;
 
+
+    public void setClickListener(BaseItemClickListener<AVOShare> clickListener) {
+        this.clickListener = clickListener;
+    }
+
     public SharesAdapter(List<AVOShare> shares) {
         this.shares = new ArrayList<>();
         this.shares.addAll(shares);
@@ -53,6 +58,12 @@ public class SharesAdapter extends RecyclerView.Adapter<SharesAdapter.ViewHolder
         shares.addAll(list);
     }
 
+    public void reset(List<AVOShare> list) {
+        shares.clear();
+        shares.addAll(list);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView info;
@@ -66,15 +77,16 @@ public class SharesAdapter extends RecyclerView.Adapter<SharesAdapter.ViewHolder
             from = (TextView) itemView.findViewById(R.id.item_share_from);
             type = (TextView) itemView.findViewById(R.id.item_share_type);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int p = getLayoutPosition() - 1;
-                    if (clickListener != null)
-                        shares.get(p).jump(itemView.getContext());
-                }
+            if (clickListener != null) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int p = getLayoutPosition() - 1;
+                        clickListener.onClick(shares.get(p), 0, p + 1);
+                    }
 
-            });
+                });
+            }
         }
     }
 }

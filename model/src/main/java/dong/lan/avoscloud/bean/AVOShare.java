@@ -7,8 +7,11 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.SaveCallback;
+import com.blankj.ALog;
 
 import java.util.List;
+
+import jomeslu.com.router.Router;
 
 /**
  */
@@ -100,6 +103,7 @@ public class AVOShare extends AVObject {
     }
 
     public void jump(Context context) {
+        ALog.d(getType());
 
     }
 }

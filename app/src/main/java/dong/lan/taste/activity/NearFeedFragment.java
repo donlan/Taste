@@ -73,7 +73,7 @@ public class NearFeedFragment extends BaseFragment implements OnLoadMoreListener
         AVGeoPoint point = new AVGeoPoint();
         point.setLatitude(location.getLatitude());
         point.setLongitude(location.getLongitude());
-        query.whereWithinKilometers("location", point, 20);
+        query.whereWithinKilometers("location", point, 50);
         query.limit(limit);
         query.skip(count);
         query.orderByAscending("like");

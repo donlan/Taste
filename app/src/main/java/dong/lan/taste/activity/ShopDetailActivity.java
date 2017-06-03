@@ -110,7 +110,7 @@ public class ShopDetailActivity extends BaseActivity implements OnGetPoiSearchRe
             return;
         }
         Intent intent = new Intent(this, ShareActivity.class);
-        intent.putExtra("type", "Feed");
+        intent.putExtra("type", "Shop");
         intent.putExtra("uid", avoShop.getObjectId());
         intent.putExtra("desc", avoShop.getName());
         intent.putExtra("json", avoShop.toString());
